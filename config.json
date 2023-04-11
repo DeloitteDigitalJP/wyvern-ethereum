@@ -18,21 +18,21 @@
       "WyvernTokenTransferProxy": "0x82d102457854c985221249f86659c9d6cf12aa72"
     },
     "development": {
-      "Migrations": "0x0545f898c5d9e028f69e969ca3250bf0bcaedbcf",
-      "TestToken": "0xc2148e012abd699b76b298d5bca1618c43f985fe",
-      "TestDAO": "0x0dd6e287e51c142ed4db36b55c5cb063a6ee444b",
-      "MerkleProof": "0x4b7fc44964bebf7772e97573c49fdb9de635ee7e",
-      "WyvernToken": "0x2c5b3e4006c1994870c9a62788ee6b499f29388b",
-      "WyvernDAO": "0xdbfb0dca67931d6ea18380f3a26903824ff5929f",
+      "Migrations": "0xabb8a4219960dff72d4b13d38ffd091dda88aa8a",
+      "TestToken": "0xca1da471d22d3f62ac30f622eb290da7bf1dab6e",
+      "TestDAO": "0x7680fad945d99586e5115c6b6711b3cb57b723c9",
+      "MerkleProof": "0x04ddf9f8d2727e05e3f94780a70f338d1f7d02ad",
+      "WyvernToken": "0xc67d4ab638ba50c344292688cb88c2b5a8ed1cb4",
+      "WyvernDAO": "0xcbd07f14f21cd693df0b19da21e371a5683e4359",
       "WyvernRegistry": "0xf3d3f091fdc77054f8ef0fcc45edfe9012656da5",
       "SaleKindInterface": "0x9ba0fd02d538435dae6f6e5e741cd8b981416a51",
-      "WyvernExchange": "0xaba2b00d06a286897c0e769226bf52b2eadad479",
+      "WyvernExchange": "0xae7666d2da1d2267c828ec9d2694aa6b9820a885",
       "DirectEscrowProvider": "0x46ffabd33987eef48d59cd315c5450b8eab116be",
-      "WyvernProxyRegistry": "0x63d07b80aa7c31c2b8964da4d93a9c01e430dd93",
-      "TestStatic": "0x29dd72597101f211fbfe4ea79b431987a0a005f1",
-      "WyvernDAOProxy": "0xccc08fc4e4e897369182edc14acc7c0a6b7abf90",
-      "WyvernAtomicizer": "0xb39dc0b3cdb7dff704be3e8620eb184a666dd330",
-      "WyvernTokenTransferProxy": "0x952f05f78209932e47ecebf900b22c15830eac4e"
+      "WyvernProxyRegistry": "0xd798ae1b223453cb47d04db02e223ea89aec11f3",
+      "TestStatic": "0xb6cbdab4e1c7f830e6d49c015a5660e2e8e93d1b",
+      "WyvernDAOProxy": "0x00685d3e9df666b8c0244381f588bc0872366e82",
+      "WyvernAtomicizer": "0x6883395a7daabe01b78d6e5029333215bc550a7e",
+      "WyvernTokenTransferProxy": "0x966554e76e1c276765ec33579398d480a7564915"
     },
     "main": {
       "Migrations": "0x62f98f9b03176f3da5a1c20955295084386c4c87",
