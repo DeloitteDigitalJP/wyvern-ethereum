@@ -96,6 +96,8 @@ contract ExchangeCore is ReentrancyGuarded, Ownable {
         address maker;
         /* Order taker address, if specified. */
         address taker;
+        /* Payment recipient address. */
+        address paymentRecipient;
         /* Maker relayer fee of the order, unused for taker order. */
         uint makerRelayerFee;
         /* Taker relayer fee of the order, or maximum taker fee for a taker order. */
@@ -138,10 +140,10 @@ contract ExchangeCore is ReentrancyGuarded, Ownable {
         uint salt;
     }
     
-    event OrderApprovedPartOne    (bytes32 indexed hash, address exchange, address indexed maker, address taker, uint makerRelayerFee, uint takerRelayerFee, uint makerProtocolFee, uint takerProtocolFee, address indexed feeRecipient, FeeMethod feeMethod, SaleKindInterface.Side side, SaleKindInterface.SaleKind saleKind, address target);
+    event OrderApprovedPartOne    (bytes32 indexed hash, address exchange, address indexed maker, address taker, address paymentRecipient, uint makerRelayerFee, uint takerRelayerFee, uint makerProtocolFee, uint takerProtocolFee, address indexed feeRecipient, FeeMethod feeMethod, SaleKindInterface.Side side, SaleKindInterface.SaleKind saleKind, address target);
     event OrderApprovedPartTwo    (bytes32 indexed hash, AuthenticatedProxy.HowToCall howToCall, bytes calldata, bytes replacementPattern, address staticTarget, bytes staticExtradata, address paymentToken, uint basePrice, uint extra, uint listingTime, uint expirationTime, uint salt, bool orderbookInclusionDesired);
     event OrderCancelled          (bytes32 indexed hash);
-    event OrdersMatched           (bytes32 buyHash, bytes32 sellHash, address indexed maker, address indexed taker, uint price, bytes32 indexed metadata);
+    event OrdersMatched           (bytes32 buyHash, bytes32 sellHash, address indexed maker, address indexed taker, address paymentRecipient, uint price, bytes32 indexed metadata);
 
     /**
      * @dev Change the minimum maker fee paid to the protocol (owner only)
@@ -239,7 +241,7 @@ contract ExchangeCore is ReentrancyGuarded, Ownable {
         pure
         returns (uint)
     {
-        return ((0x14 * 7) + (0x20 * 9) + 4 + order.calldata.length + order.replacementPattern.length + order.staticExtradata.length);
+        return ((0x14 * 8) + (0x20 * 9) + 4 + order.calldata.length + order.replacementPattern.length + order.staticExtradata.length);
     }
 
     /**
@@ -262,6 +264,7 @@ contract ExchangeCore is ReentrancyGuarded, Ownable {
         index = ArrayUtils.unsafeWriteAddress(index, order.exchange);
         index = ArrayUtils.unsafeWriteAddress(index, order.maker);
         index = ArrayUtils.unsafeWriteAddress(index, order.taker);
+        index = ArrayUtils.unsafeWriteAddress(index, order.paymentRecipient);
         index = ArrayUtils.unsafeWriteUint(index, order.makerRelayerFee);
         index = ArrayUtils.unsafeWriteUint(index, order.takerRelayerFee);
         index = ArrayUtils.unsafeWriteUint(index, order.makerProtocolFee);
@@ -405,8 +408,15 @@ contract ExchangeCore is ReentrancyGuarded, Ownable {
         approvedOrders[hash] = true;
   
         /* Log approval event. Must be split in two due to Solidity stack size limitations. */
+        emitOrderApproved(hash, order, orderbookInclusionDesired);
+    }
+
+    function emitOrderApproved(bytes32 hash, Order memory order, bool orderbookInclusionDesired)
+        internal
+    {
+        /* Log approval event. Must be split in two due to Solidity stack size limitations. */
         {
-            emit OrderApprovedPartOne(hash, order.exchange, order.maker, order.taker, order.makerRelayerFee, order.takerRelayerFee, order.makerProtocolFee, order.takerProtocolFee, order.feeRecipient, order.feeMethod, order.side, order.saleKind, order.target);
+            emit OrderApprovedPartOne(hash, order.exchange, order.maker, order.taker, order.paymentRecipient, order.makerRelayerFee, order.takerRelayerFee, order.makerProtocolFee, order.takerProtocolFee, order.feeRecipient, order.feeMethod, order.side, order.saleKind, order.target);
         }
         {   
             emit OrderApprovedPartTwo(hash, order.howToCall, order.calldata, order.replacementPattern, order.staticTarget, order.staticExtradata, order.paymentToken, order.basePrice, order.extra, order.listingTime, order.expirationTime, order.salt, orderbookInclusionDesired);
@@ -608,7 +618,11 @@ contract ExchangeCore is ReentrancyGuarded, Ownable {
         if (sell.paymentToken == address(0)) {
             /* Special-case Ether, order must be matched by buyer. */
             require(msg.value >= requiredAmount);
-            sell.maker.transfer(receiveAmount);
+            address paymentRecipient = sell.paymentRecipient;
+            if (paymentRecipient == address(0)) {
+                paymentRecipient == sell.maker;
+            }
+            paymentRecipient.transfer(receiveAmount);
             /* Allow overshoot for variable-price auctions, refund difference. */
             uint diff = SafeMath.sub(msg.value, requiredAmount);
             if (diff > 0) {
@@ -747,7 +761,7 @@ contract ExchangeCore is ReentrancyGuarded, Ownable {
         }
 
         /* Log match event. */
-        emit OrdersMatched(buyHash, sellHash, sell.feeRecipient != address(0) ? sell.maker : buy.maker, sell.feeRecipient != address(0) ? buy.maker : sell.maker, price, metadata);
+        emit OrdersMatched(buyHash, sellHash, sell.feeRecipient != address(0) ? sell.maker : buy.maker, sell.feeRecipient != address(0) ? buy.maker : sell.maker, sell.paymentRecipient, price, metadata);
     }
 
 }

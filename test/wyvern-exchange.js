@@ -45,6 +45,7 @@ const hashOrder = (order) => {
     {type: 'address', value: order.exchange},
     {type: 'address', value: order.maker},
     {type: 'address', value: order.taker},
+    {type: 'address', value: order.paymentRecipient},
     {type: 'uint', value: new BigNumber(order.makerRelayerFee)},
     {type: 'uint', value: new BigNumber(order.takerRelayerFee)},
     {type: 'uint', value: new BigNumber(order.takerProtocolFee)},
@@ -73,6 +74,7 @@ const hashToSign = (order) => {
     {type: 'address', value: order.exchange},
     {type: 'address', value: order.maker},
     {type: 'address', value: order.taker},
+    {type: 'address', value: order.paymentRecipient},
     {type: 'uint', value: new BigNumber(order.makerRelayerFee)},
     {type: 'uint', value: new BigNumber(order.takerRelayerFee)},
     {type: 'uint', value: new BigNumber(order.takerProtocolFee)},
@@ -362,6 +364,7 @@ contract('WyvernExchange', (accounts) => {
     exchange: exchange,
     maker: accounts[0],
     taker: accounts[0],
+    paymentRecipient: accounts[2],
     makerRelayerFee: 0,
     takerRelayerFee: 0,
     makerProtocolFee: 0,
@@ -391,7 +394,7 @@ contract('WyvernExchange', (accounts) => {
         const order = makeOrder(exchangeInstance.address)
         const hash = hashOrder(order)
         return exchangeInstance.hashOrder_.call(
-            [order.exchange, order.maker, order.taker, order.feeRecipient, order.target, order.staticTarget, order.paymentToken],
+            [order.exchange, order.maker, order.taker, order.paymentRecipient, order.feeRecipient, order.target, order.staticTarget, order.paymentToken],
             [order.makerRelayerFee, order.takerRelayerFee, order.makerProtocolFee, order.takerProtocolFee, order.basePrice, order.extra, order.listingTime, order.expirationTime, order.salt],
             order.feeMethod,
             order.side,
@@ -412,7 +415,7 @@ contract('WyvernExchange', (accounts) => {
         const order = makeOrder(exchangeInstance.address)
         const hash = hashToSign(order)
         return exchangeInstance.hashToSign_.call(
-            [order.exchange, order.maker, order.taker, order.feeRecipient, order.target, order.staticTarget, order.paymentToken],
+            [order.exchange, order.maker, order.taker, order.paymentRecipient, order.feeRecipient, order.target, order.staticTarget, order.paymentToken],
             [order.makerRelayerFee, order.takerRelayerFee, order.makerProtocolFee, order.takerProtocolFee, order.basePrice, order.extra, order.listingTime, order.expirationTime, order.salt],
             order.feeMethod,
             order.side,
@@ -437,7 +440,7 @@ contract('WyvernExchange', (accounts) => {
         const hash = hashOrder(order)
         return web3.eth.sign(hash, accounts[0]).then(() => {
           return exchangeInstance.validateOrderParameters_.call(
-            [order.exchange, order.maker, order.taker, order.feeRecipient, order.target, order.staticTarget, order.paymentToken],
+            [order.exchange, order.maker, order.taker, order.paymentRecipient, order.feeRecipient, order.target, order.staticTarget, order.paymentToken],
             [order.makerRelayerFee, order.takerRelayerFee, order.makerProtocolFee, order.takerProtocolFee, order.basePrice, order.extra, order.listingTime, order.expirationTime, order.salt],
             order.feeMethod,
             order.side,
@@ -449,7 +452,7 @@ contract('WyvernExchange', (accounts) => {
           ).then(ret => {
             assert.equal(ret, true, 'Order did not validate')
             return exchangeInstance.calculateCurrentPrice_.call(
-              [order.exchange, order.maker, order.taker, order.feeRecipient, order.target, order.staticTarget, order.paymentToken],
+              [order.exchange, order.maker, order.taker, order.paymentRecipient, order.feeRecipient, order.target, order.staticTarget, order.paymentToken],
               [order.makerRelayerFee, order.takerRelayerFee, order.makerProtocolFee, order.takerProtocolFee, order.basePrice, order.extra, order.listingTime, order.expirationTime, order.salt],
               order.feeMethod,
               order.side,
@@ -478,7 +481,7 @@ contract('WyvernExchange', (accounts) => {
           const s = '0x' + signature.slice(64, 128)
           const v = 27 + parseInt('0x' + signature.slice(128, 130), 16)
           return exchangeInstance.validateOrder_.call(
-            [order.exchange, order.maker, order.taker, order.feeRecipient, order.target, order.staticTarget, order.paymentToken],
+            [order.exchange, order.maker, order.taker, order.paymentRecipient, order.feeRecipient, order.target, order.staticTarget, order.paymentToken],
             [order.makerRelayerFee, order.takerRelayerFee, order.makerProtocolFee, order.takerProtocolFee, order.basePrice, order.extra, order.listingTime, order.expirationTime, order.salt],
             order.feeMethod,
             order.side,
@@ -508,7 +511,7 @@ contract('WyvernExchange', (accounts) => {
           const s = '0x' + signature.slice(64, 128)
           const v = 27 + parseInt('0x' + signature.slice(128, 130), 16)
           return exchangeInstance.validateOrder_.call(
-            [order.exchange, order.maker, order.taker, order.feeRecipient, order.target, order.staticTarget, order.paymentToken],
+            [order.exchange, order.maker, order.taker, order.paymentRecipient, order.feeRecipient, order.target, order.staticTarget, order.paymentToken],
             [order.makerRelayerFee, order.takerRelayerFee, order.makerProtocolFee, order.takerProtocolFee, order.basePrice, order.extra, order.listingTime, order.expirationTime, order.salt],
             order.feeMethod,
             order.side,
@@ -540,7 +543,7 @@ contract('WyvernExchange', (accounts) => {
             const s = '0x' + signature.slice(64, 128)
             const v = 27 + parseInt('0x' + signature.slice(128, 130), 16)
             return exchangeInstance.validateOrder_.call(
-              [order.exchange, order.maker, order.taker, order.feeRecipient, order.target, order.staticTarget, order.paymentToken],
+              [order.exchange, order.maker, order.taker, order.paymentRecipient, order.feeRecipient, order.target, order.staticTarget, order.paymentToken],
               [order.makerRelayerFee, order.takerRelayerFee, order.makerProtocolFee, order.takerProtocolFee, order.basePrice, order.extra, order.listingTime, order.expirationTime, order.salt],
               order.feeMethod,
               order.side,
@@ -574,7 +577,7 @@ contract('WyvernExchange', (accounts) => {
             const s = '0x' + signature.slice(64, 128)
             const v = 27 + parseInt('0x' + signature.slice(128, 130), 16)
             return exchangeInstance.validateOrder_.call(
-              [order.exchange, order.maker, order.taker, order.feeRecipient, order.target, order.staticTarget, order.paymentToken],
+              [order.exchange, order.maker, order.taker, order.paymentRecipient, order.feeRecipient, order.target, order.staticTarget, order.paymentToken],
               [order.makerRelayerFee, order.takerRelayerFee, order.makerProtocolFee, order.takerProtocolFee, order.basePrice, order.extra, order.listingTime, order.expirationTime, order.salt],
               order.feeMethod,
               order.side,
@@ -632,7 +635,7 @@ contract('WyvernExchange', (accounts) => {
       .then(exchangeInstance => {
         const order = makeOrder(exchangeInstance.address)
         return exchangeInstance.validateOrder_.call(
-          [order.exchange, order.maker, order.taker, order.feeRecipient, order.target, order.staticTarget, order.paymentToken],
+          [order.exchange, order.maker, order.taker, order.paymentRecipient, order.feeRecipient, order.target, order.staticTarget, order.paymentToken],
           [order.makerRelayerFee, order.takerRelayerFee, order.makerProtocolFee, order.takerProtocolFee, order.basePrice, order.extra, order.listingTime, order.expirationTime, order.salt],
           order.feeMethod,
           order.side,
@@ -655,7 +658,7 @@ contract('WyvernExchange', (accounts) => {
       .then(exchangeInstance => {
         const order = makeOrder(exchangeInstance.address)
         return exchangeInstance.approveOrder_(
-          [order.exchange, order.maker, order.taker, order.feeRecipient, order.target, order.staticTarget, order.paymentToken],
+          [order.exchange, order.maker, order.taker, order.paymentRecipient, order.feeRecipient, order.target, order.staticTarget, order.paymentToken],
           [order.makerRelayerFee, order.takerRelayerFee, order.makerProtocolFee, order.takerProtocolFee, order.basePrice, order.extra, order.listingTime, order.expirationTime, order.salt],
           order.feeMethod,
           order.side,
@@ -680,7 +683,7 @@ contract('WyvernExchange', (accounts) => {
       .then(exchangeInstance => {
         const order = makeOrder(exchangeInstance.address)
         return exchangeInstance.hashOrder_.estimateGas(
-          [order.exchange, order.maker, order.taker, order.feeRecipient, order.target, order.staticTarget, order.paymentToken],
+          [order.exchange, order.maker, order.taker, order.paymentRecipient, order.feeRecipient, order.target, order.staticTarget, order.paymentToken],
           [order.makerRelayerFee, order.takerRelayerFee, order.makerProtocolFee, order.takerProtocolFee, order.basePrice, order.extra, order.listingTime, order.expirationTime, order.salt],
           order.feeMethod,
           order.side,
@@ -691,7 +694,7 @@ contract('WyvernExchange', (accounts) => {
           order.staticExtradata).then(gas => {
             traceGas('hashOrder_', { receipt: { gasUsed: gas } })
             return exchangeInstance.approveOrder_(
-              [order.exchange, order.maker, order.taker, order.feeRecipient, order.target, order.staticTarget, order.paymentToken],
+              [order.exchange, order.maker, order.taker, order.paymentRecipient, order.feeRecipient, order.target, order.staticTarget, order.paymentToken],
               [order.makerRelayerFee, order.takerRelayerFee, order.makerProtocolFee, order.takerProtocolFee, order.basePrice, order.extra, order.listingTime, order.expirationTime, order.salt],
               order.feeMethod,
               order.side,
@@ -704,7 +707,7 @@ contract('WyvernExchange', (accounts) => {
             ).then(res => {
               traceGas('approveOrder_', res)
               return exchangeInstance.validateOrder_.call(
-                [order.exchange, order.maker, order.taker, order.feeRecipient, order.target, order.staticTarget, order.paymentToken],
+                [order.exchange, order.maker, order.taker, order.paymentRecipient, order.feeRecipient, order.target, order.staticTarget, order.paymentToken],
                 [order.makerRelayerFee, order.takerRelayerFee, order.makerProtocolFee, order.takerProtocolFee, order.basePrice, order.extra, order.listingTime, order.expirationTime, order.salt],
                 order.feeMethod,
                 order.side,
@@ -718,7 +721,7 @@ contract('WyvernExchange', (accounts) => {
               ).then(ret => {
                 assert.equal(ret, true, 'Order did not validate')
                 return exchangeInstance.cancelOrder_(
-                  [order.exchange, order.maker, order.taker, order.feeRecipient, order.target, order.staticTarget, order.paymentToken],
+                  [order.exchange, order.maker, order.taker, order.paymentRecipient, order.feeRecipient, order.target, order.staticTarget, order.paymentToken],
                   [order.makerRelayerFee, order.takerRelayerFee, order.makerProtocolFee, order.takerProtocolFee, order.basePrice, order.extra, order.listingTime, order.expirationTime, order.salt],
                   order.feeMethod,
                   order.side,
@@ -731,7 +734,7 @@ contract('WyvernExchange', (accounts) => {
                 ).then(res => {
                   traceGas('cancelOrder_', res)
                   return exchangeInstance.validateOrder_.call(
-                    [order.exchange, order.maker, order.taker, order.feeRecipient, order.target, order.staticTarget, order.paymentToken],
+                    [order.exchange, order.maker, order.taker, order.paymentRecipient, order.feeRecipient, order.target, order.staticTarget, order.paymentToken],
                     [order.makerRelayerFee, order.takerRelayerFee, order.makerProtocolFee, order.takerProtocolFee, order.basePrice, order.extra, order.listingTime, order.expirationTime, order.salt],
                     order.feeMethod,
                     order.side,
@@ -781,7 +784,7 @@ contract('WyvernExchange', (accounts) => {
             const ss = '0x' + signature.slice(64, 128)
             const sv = 27 + parseInt('0x' + signature.slice(128, 130), 16)
             await exchangeInstance.hashOrder_.estimateGas(
-              [buy.exchange, buy.maker, buy.taker, buy.feeRecipient, buy.target, buy.staticTarget, buy.paymentToken],
+              [buy.exchange, buy.maker, buy.taker, buy.paymentRecipient, buy.feeRecipient, buy.target, buy.staticTarget, buy.paymentToken],
               [buy.makerRelayerFee, buy.takerRelayerFee, buy.makerProtocolFee, buy.takerProtocolFee, buy.basePrice, buy.extra, buy.listingTime, buy.expirationTime, buy.salt],
               buy.feeMethod,
               buy.side,
@@ -793,7 +796,7 @@ contract('WyvernExchange', (accounts) => {
                 traceGas('hashOrder_', { receipt: { gasUsed: gas } })
               })
             await exchangeInstance.hashOrder_.estimateGas(
-              [sell.exchange, sell.maker, sell.taker, sell.feeRecipient, sell.target, sell.staticTarget, sell.paymentToken],
+              [sell.exchange, sell.maker, sell.taker, sell.paymentRecipient, sell.feeRecipient, sell.target, sell.staticTarget, sell.paymentToken],
               [sell.makerRelayerFee, sell.takerRelayerFee, sell.makerProtocolFee, sell.takerProtocolFee, sell.basePrice, sell.extra, sell.listingTime, sell.expirationTime, sell.salt],
               sell.feeMethod,
               sell.side,
@@ -805,7 +808,7 @@ contract('WyvernExchange', (accounts) => {
                 traceGas('hashOrder_', { receipt: { gasUsed: gas } })
               })
             return exchangeInstance.ordersCanMatch_.call(
-              [buy.exchange, buy.maker, buy.taker, buy.feeRecipient, buy.target, buy.staticTarget, buy.paymentToken, sell.exchange, sell.maker, sell.taker, sell.feeRecipient, sell.target, sell.staticTarget, sell.paymentToken],
+              [buy.exchange, buy.maker, buy.taker, buy.paymentRecipient, buy.feeRecipient, buy.target, buy.staticTarget, buy.paymentToken, sell.exchange, sell.maker, sell.taker, sell.paymentRecipient, sell.feeRecipient, sell.target, sell.staticTarget, sell.paymentToken],
               [buy.makerRelayerFee, buy.takerRelayerFee, buy.makerProtocolFee, buy.takerProtocolFee, buy.basePrice, buy.extra, buy.listingTime, buy.expirationTime, buy.salt, sell.makerRelayerFee, sell.takerRelayerFee, sell.makerProtocolFee, sell.takerProtocolFee, sell.basePrice, sell.extra, sell.listingTime, sell.expirationTime, sell.salt],
               [buy.feeMethod, buy.side, buy.saleKind, buy.howToCall, sell.feeMethod, sell.side, sell.saleKind, sell.howToCall],
               buy.calldata,
@@ -817,7 +820,7 @@ contract('WyvernExchange', (accounts) => {
             ).then(ret => {
               assert.equal(ret, true, 'Orders were not matchable!')
               return exchangeInstance.calculateMatchPrice_.call(
-                [buy.exchange, buy.maker, buy.taker, buy.feeRecipient, buy.target, buy.staticTarget, buy.paymentToken, sell.exchange, sell.maker, sell.taker, sell.feeRecipient, sell.target, sell.staticTarget, sell.paymentToken],
+                [buy.exchange, buy.maker, buy.taker, buy.paymentRecipient, buy.feeRecipient, buy.target, buy.staticTarget, buy.paymentToken, sell.exchange, sell.maker, sell.taker, sell.paymentRecipient, sell.feeRecipient, sell.target, sell.staticTarget, sell.paymentToken],
                 [buy.makerRelayerFee, buy.takerRelayerFee, buy.makerProtocolFee, buy.takerProtocolFee, buy.basePrice, buy.extra, buy.listingTime, buy.expirationTime, buy.salt, sell.makerRelayerFee, sell.takerRelayerFee, sell.makerProtocolFee, sell.takerProtocolFee, sell.basePrice, sell.extra, sell.listingTime, sell.expirationTime, sell.salt],
                 [buy.feeMethod, buy.side, buy.saleKind, buy.howToCall, sell.feeMethod, sell.side, sell.saleKind, sell.howToCall],
                 buy.calldata,
@@ -829,7 +832,7 @@ contract('WyvernExchange', (accounts) => {
               ).then(matchPrice => {
                 assert.equal(matchPrice.toNumber(), buy.basePrice.toNumber(), 'Incorrect match price!')
                 return exchangeInstance.approveOrder_(
-                  [buy.exchange, buy.maker, buy.taker, buy.feeRecipient, buy.target, buy.staticTarget, buy.paymentToken],
+                  [buy.exchange, buy.maker, buy.taker, buy.paymentRecipient, buy.feeRecipient, buy.target, buy.staticTarget, buy.paymentToken],
                   [buy.makerRelayerFee, buy.takerRelayerFee, buy.makerProtocolFee, buy.takerProtocolFee, buy.basePrice, buy.extra, buy.listingTime, buy.expirationTime, buy.salt],
                   buy.feeMethod,
                   buy.side,
@@ -842,7 +845,7 @@ contract('WyvernExchange', (accounts) => {
                 ).then(res => {
                   traceGas('approveOrder_', res)
                   return exchangeInstance.approveOrder_(
-                    [sell.exchange, sell.maker, sell.taker, sell.feeRecipient, sell.target, sell.staticTarget, sell.paymentToken],
+                    [sell.exchange, sell.maker, sell.taker, sell.paymentRecipient, sell.feeRecipient, sell.target, sell.staticTarget, sell.paymentToken],
                     [sell.makerRelayerFee, sell.takerRelayerFee, sell.makerProtocolFee, sell.takerProtocolFee, sell.basePrice, sell.extra, sell.listingTime, sell.expirationTime, sell.salt],
                     sell.feeMethod,
                     sell.side,
@@ -855,7 +858,7 @@ contract('WyvernExchange', (accounts) => {
                   ).then(res => {
                     traceGas('approveOrder_', res)
                     return exchangeInstance.atomicMatch_(
-                      [buy.exchange, buy.maker, buy.taker, buy.feeRecipient, buy.target, buy.staticTarget, buy.paymentToken, sell.exchange, sell.maker, sell.taker, sell.feeRecipient, sell.target, sell.staticTarget, sell.paymentToken],
+                      [buy.exchange, buy.maker, buy.taker, buy.paymentRecipient, buy.feeRecipient, buy.target, buy.staticTarget, buy.paymentToken, sell.exchange, sell.maker, sell.taker, sell.paymentRecipient, sell.feeRecipient, sell.target, sell.staticTarget, sell.paymentToken],
                       [buy.makerRelayerFee, buy.takerRelayerFee, buy.makerProtocolFee, buy.takerProtocolFee, buy.basePrice, buy.extra, buy.listingTime, buy.expirationTime, buy.salt, sell.makerRelayerFee, sell.takerRelayerFee, sell.makerProtocolFee, sell.takerProtocolFee, sell.basePrice, sell.extra, sell.listingTime, sell.expirationTime, sell.salt],
                       [buy.feeMethod, buy.side, buy.saleKind, buy.howToCall, sell.feeMethod, sell.side, sell.saleKind, sell.howToCall],
                       buy.calldata,
@@ -1305,7 +1308,7 @@ contract('WyvernExchange', (accounts) => {
         buy.target = exchangeInstance.address
         const contract = new web3.eth.Contract(WyvernExchange.abi, exchangeInstance.address)
         const calldata = contract.methods.atomicMatch_(
-          [buy.exchange, buy.maker, buy.taker, buy.feeRecipient, buy.target, buy.staticTarget, buy.paymentToken, sell.exchange, sell.maker, sell.taker, sell.feeRecipient, sell.target, sell.staticTarget, sell.paymentToken],
+          [buy.exchange, buy.maker, buy.taker, buy.paymentRecipient, buy.feeRecipient, buy.target, buy.staticTarget, buy.paymentToken, sell.exchange, sell.maker, sell.taker, sell.paymentRecipient, sell.feeRecipient, sell.target, sell.staticTarget, sell.paymentToken],
           [buy.makerRelayerFee, buy.takerRelayerFee, buy.makerProtocolFee, buy.takerProtocolFee, buy.basePrice, buy.extra, buy.listingTime, buy.expirationTime, buy.salt, sell.makerRelayerFee, sell.takerRelayerFee, sell.makerProtocolFee, sell.takerProtocolFee, sell.basePrice, sell.extra, sell.listingTime, sell.expirationTime, sell.salt],
           [buy.feeMethod, buy.side, buy.saleKind, buy.howToCall, sell.feeMethod, sell.side, sell.saleKind, sell.howToCall],
           buy.calldata,
@@ -1700,6 +1703,197 @@ contract('WyvernExchange', (accounts) => {
         })
       })
   })
+
+  /*
+    paymentRecipient test - start
+  */
+  const execBuy = async (buy, sell, thenFunc, catchFunc, value = 0) => {
+    const exchangeInstance = await WyvernExchange.deployed();
+    let balanceBuy1, balanceBuy2,
+        balanceSell1, balanceSell2,
+        balancePayment1, balancePayment2,
+        balanceFee1, balanceFee2,
+        balanceProtocol1, balanceProtocol2,
+        totalGasPrice;
+
+    try {
+      const sellHash = hashOrder(sell);
+      let signature = await web3.eth.sign(sellHash, sell.maker);
+      signature = signature.substr(2);
+      const sr = '0x' + signature.slice(0, 64);
+      const ss = '0x' + signature.slice(64, 128);
+      const sv = 27 + parseInt('0x' + signature.slice(128, 130), 16);
+
+      const validateOrderParameters = await exchangeInstance.validateOrderParameters_.call(
+        [buy.exchange, buy.maker, buy.taker, buy.paymentRecipient, buy.feeRecipient, buy.target, buy.staticTarget, buy.paymentToken],
+        [buy.makerRelayerFee, buy.takerRelayerFee, buy.makerProtocolFee, buy.takerProtocolFee, buy.basePrice, buy.extra, buy.listingTime, buy.expirationTime, buy.salt],
+        buy.feeMethod,
+        buy.side,
+        buy.saleKind,
+        buy.howToCall,
+        buy.calldata,
+        buy.replacementPattern,
+        buy.staticExtradata
+      );
+      assert.equal(validateOrderParameters, true, 'fail validateOrderParameters_');
+
+      const validateOrder = await exchangeInstance.validateOrder_.call(
+        [sell.exchange, sell.maker, sell.taker, sell.paymentRecipient, sell.feeRecipient, sell.target, sell.staticTarget, sell.paymentToken],
+        [sell.makerRelayerFee, sell.takerRelayerFee, sell.makerProtocolFee, sell.takerProtocolFee, sell.basePrice, sell.extra, sell.listingTime, sell.expirationTime, sell.salt],
+        sell.feeMethod,
+        sell.side,
+        sell.saleKind,
+        sell.howToCall,
+        sell.calldata,
+        sell.replacementPattern,
+        sell.staticExtradata,
+        sv, sr, ss
+      );
+      assert.equal(validateOrder, true, 'fail validateOrder_');
+
+      const ordersCanMatch = await exchangeInstance.ordersCanMatch_.call(
+        [buy.exchange, buy.maker, buy.taker, buy.paymentRecipient, buy.feeRecipient, buy.target, buy.staticTarget, buy.paymentToken, sell.exchange, sell.maker, sell.taker, sell.paymentRecipient, sell.feeRecipient, sell.target, sell.staticTarget, sell.paymentToken],
+        [buy.makerRelayerFee, buy.takerRelayerFee, buy.makerProtocolFee, buy.takerProtocolFee, buy.basePrice, buy.extra, buy.listingTime, buy.expirationTime, buy.salt, sell.makerRelayerFee, sell.takerRelayerFee, sell.makerProtocolFee, sell.takerProtocolFee, sell.basePrice, sell.extra, sell.listingTime, sell.expirationTime, sell.salt],
+        [buy.feeMethod, buy.side, buy.saleKind, buy.howToCall, sell.feeMethod, sell.side, sell.saleKind, sell.howToCall],
+        buy.calldata,
+        sell.calldata,
+        buy.replacementPattern,
+        sell.replacementPattern,
+        buy.staticExtradata,
+        sell.staticExtradata
+      );
+      assert.equal(ordersCanMatch, true, 'fail ordersCanMatch_');
+
+      const protocolFeeRecipient = await exchangeInstance.protocolFeeRecipient();
+      balanceBuy1 = new BigNumber(await web3.eth.getBalance(buy.maker));
+      balanceSell1 = new BigNumber(await web3.eth.getBalance(sell.maker));
+      balancePayment1 = new BigNumber(await web3.eth.getBalance(sell.paymentRecipient));
+      balanceFee1 = new BigNumber(await web3.eth.getBalance(sell.feeRecipient));
+      balanceProtocol1 = new BigNumber(await web3.eth.getBalance(protocolFeeRecipient));
+
+      const atomicMatch = await exchangeInstance.atomicMatch_(
+        [buy.exchange, buy.maker, buy.taker, buy.paymentRecipient, buy.feeRecipient, buy.target, buy.staticTarget, buy.paymentToken, sell.exchange, sell.maker, sell.taker, sell.paymentRecipient, sell.feeRecipient, sell.target, sell.staticTarget, sell.paymentToken],
+        [buy.makerRelayerFee, buy.takerRelayerFee, buy.makerProtocolFee, buy.takerProtocolFee, buy.basePrice, buy.extra, buy.listingTime, buy.expirationTime, buy.salt, sell.makerRelayerFee, sell.takerRelayerFee, sell.makerProtocolFee, sell.takerProtocolFee, sell.basePrice, sell.extra, sell.listingTime, sell.expirationTime, sell.salt],
+        [buy.feeMethod, buy.side, buy.saleKind, buy.howToCall, sell.feeMethod, sell.side, sell.saleKind, sell.howToCall],
+        buy.calldata,
+        sell.calldata,
+        buy.replacementPattern,
+        sell.replacementPattern,
+        buy.staticExtradata,
+        sell.staticExtradata,
+        [0, sv],
+        ['0x0000000000000000000000000000000000000000000000000000000000000000', '0x0000000000000000000000000000000000000000000000000000000000000000', sr, ss, '0x0000000000000000000000000000000000000000000000000000000000000000'], {from: buy.maker, value});
+      traceGas('atomicMatch_', atomicMatch);
+
+      const transaction = await web3.eth.getTransaction(atomicMatch.receipt.transactionHash);
+      totalGasPrice = (new BigNumber(transaction.gasPrice)).mul(atomicMatch.receipt.gasUsed);
+      balanceBuy2 = new BigNumber(await web3.eth.getBalance(accounts[1]));
+      balanceSell2 = new BigNumber(await web3.eth.getBalance(accounts[0]));
+      balancePayment2 = new BigNumber(await web3.eth.getBalance(accounts[2]));
+      balanceFee2 = new BigNumber(await web3.eth.getBalance(accounts[3]));
+      balanceProtocol2 = new BigNumber(await web3.eth.getBalance(protocolFeeRecipient));
+    } catch (error) {
+      catchFunc(error);
+    }
+
+    thenFunc({
+      buy: balanceBuy2.sub(balanceBuy1).add(totalGasPrice).toString(),
+      sell: balanceSell2.sub(balanceSell1).toString(),
+      paymentRecipient: balancePayment2.sub(balancePayment1).toString(),
+      feeRecipient: balanceFee2.sub(balanceFee1).toString(),
+      protocolFeeRecipient: balanceProtocol2.sub(balanceProtocol1).toString(),
+    });
+  }
+
+  it('Should send the sales amount to the paymentRecipient specified', () => {
+    return WyvernExchange
+      .deployed()
+      .then(async exchangeInstance => {
+        const buy = makeOrder(exchangeInstance.address, false);
+        const sell = makeOrder(exchangeInstance.address, true);
+        buy.maker = accounts[1];
+        buy.taker = accounts[0];
+        sell.maker = accounts[0];
+        sell.taker = '0x0000000000000000000000000000000000000000';
+        sell.paymentRecipient = accounts[2];
+        sell.feeRecipient = accounts[3];
+        sell.side = 1;
+        buy.feeMethod = 1;
+        sell.feeMethod = 1;
+        sell.salt = 2023041801;
+        buy.salt = 2023041801;
+        buy.paymentToken = '0x0000000000000000000000000000000000000000';
+        sell.paymentToken = '0x0000000000000000000000000000000000000000';
+        buy.basePrice = new BigNumber(10000);
+        sell.basePrice = new BigNumber(10000);
+        sell.makerProtocolFee = new BigNumber(100);
+        sell.makerRelayerFee = new BigNumber(100);
+        sell.takerProtocolFee = new BigNumber(100);
+        sell.takerRelayerFee = new BigNumber(100);
+        buy.takerProtocolFee = new BigNumber(100);
+        buy.takerRelayerFee = new BigNumber(100);
+
+        await exchangeInstance.changeProtocolFeeRecipient(accounts[4]);
+
+        return execBuy(buy, sell, async balance => {
+          assert.equal(balance.buy, '-10200');
+          assert.equal(balance.sell, '0');
+          assert.equal(balance.paymentRecipient, '9800');
+          assert.equal(balance.feeRecipient, '200');
+          assert.equal(balance.protocolFeeRecipient, '200');
+          await exchangeInstance.changeProtocolFeeRecipient(accounts[0]);
+        }, err => {
+          assert.equal(false, err, 'Orders should have matched');
+        }, 10200);
+      })
+  })
+
+  it('Should send the sales amount to sell.maker if paymentRecipient is the zero address', () => {
+    return WyvernExchange
+      .deployed()
+      .then(async exchangeInstance => {
+        const buy = makeOrder(exchangeInstance.address, false);
+        const sell = makeOrder(exchangeInstance.address, true);
+        buy.maker = accounts[1];
+        buy.taker = accounts[0];
+        sell.maker = accounts[0];
+        sell.taker = '0x0000000000000000000000000000000000000000';
+        sell.paymentRecipient = '0x0000000000000000000000000000000000000000';
+        sell.feeRecipient = accounts[3];
+        sell.side = 1;
+        buy.feeMethod = 1;
+        sell.feeMethod = 1;
+        sell.salt = 2023041801;
+        buy.salt = 2023041801;
+        buy.paymentToken = '0x0000000000000000000000000000000000000000';
+        sell.paymentToken = '0x0000000000000000000000000000000000000000';
+        buy.basePrice = new BigNumber(10000);
+        sell.basePrice = new BigNumber(10000);
+        sell.makerProtocolFee = new BigNumber(100);
+        sell.makerRelayerFee = new BigNumber(100);
+        sell.takerProtocolFee = new BigNumber(100);
+        sell.takerRelayerFee = new BigNumber(100);
+        buy.takerProtocolFee = new BigNumber(100);
+        buy.takerRelayerFee = new BigNumber(100);
+
+        await exchangeInstance.changeProtocolFeeRecipient(accounts[4]);
+
+        return execBuy(buy, sell, async balance => {
+          assert.equal(balance.buy, '-10200');
+          assert.equal(balance.sell, '9800');
+          assert.equal(balance.paymentRecipient, '0');
+          assert.equal(balance.feeRecipient, '200');
+          assert.equal(balance.protocolFeeRecipient, '200');
+          await exchangeInstance.changeProtocolFeeRecipient(accounts[0]);
+        }, err => {
+          assert.equal(false, err, 'Orders should have matched');
+        }, 10200);
+      })
+  })
+
+  /*
+    paymentRecipient test - end
+  */
 
   it('should fail after proxy revocation', () => {
     return WyvernProxyRegistry
