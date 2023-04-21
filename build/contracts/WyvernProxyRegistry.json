@@ -289,7 +289,7 @@
         "id": 412,
         "nodeType": "ImportDirective",
         "scope": 456,
-        "sourceUnit": 5623,
+        "sourceUnit": 5642,
         "src": "72:38:8",
         "symbolAliases": [],
         "unitAlias": ""
@@ -300,7 +300,7 @@
         "id": 413,
         "nodeType": "ImportDirective",
         "scope": 456,
-        "sourceUnit": 5438,
+        "sourceUnit": 5457,
         "src": "111:43:8",
         "symbolAliases": [],
         "unitAlias": ""
@@ -314,10 +314,10 @@
               "id": 414,
               "name": "ProxyRegistry",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 5622,
+              "referencedDeclaration": 5641,
               "src": "263:13:8",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_ProxyRegistry_$5622",
+                "typeIdentifier": "t_contract$_ProxyRegistry_$5641",
                 "typeString": "contract ProxyRegistry"
               }
             },
@@ -327,9 +327,9 @@
           }
         ],
         "contractDependencies": [
-          5437,
-          5622,
-          6567
+          5456,
+          5641,
+          6586
         ],
         "contractKind": "contract",
         "documentation": "@title WyvernProxyRegistry\n@author Project Wyvern Developers",
@@ -337,8 +337,8 @@
         "id": 455,
         "linearizedBaseContracts": [
           455,
-          5622,
-          6567
+          5641,
+          6586
         ],
         "name": "WyvernProxyRegistry",
         "nodeType": "ContractDefinition",
@@ -449,7 +449,7 @@
                       "name": "delegateProxyImplementation",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 5478,
+                      "referencedDeclaration": 5497,
                       "src": "497:27:8",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
@@ -471,7 +471,7 @@
                         "nodeType": "NewExpression",
                         "src": "527:22:8",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_function_creation_nonpayable$__$returns$_t_contract$_AuthenticatedProxy_$5437_$",
+                          "typeIdentifier": "t_function_creation_nonpayable$__$returns$_t_contract$_AuthenticatedProxy_$5456_$",
                           "typeString": "function () returns (contract AuthenticatedProxy)"
                         },
                         "typeName": {
@@ -479,10 +479,10 @@
                           "id": 425,
                           "name": "AuthenticatedProxy",
                           "nodeType": "UserDefinedTypeName",
-                          "referencedDeclaration": 5437,
+                          "referencedDeclaration": 5456,
                           "src": "531:18:8",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_AuthenticatedProxy_$5437",
+                            "typeIdentifier": "t_contract$_AuthenticatedProxy_$5456",
                             "typeString": "contract AuthenticatedProxy"
                           }
                         }
@@ -497,7 +497,7 @@
                       "nodeType": "FunctionCall",
                       "src": "527:24:8",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_AuthenticatedProxy_$5437",
+                        "typeIdentifier": "t_contract$_AuthenticatedProxy_$5456",
                         "typeString": "contract AuthenticatedProxy"
                       }
                     },
@@ -591,10 +591,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        7074,
-                        7075
+                        7093,
+                        7094
                       ],
-                      "referencedDeclaration": 7074,
+                      "referencedDeclaration": 7093,
                       "src": "952:7:8",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -686,7 +686,7 @@
                         "name": "contracts",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 5490,
+                        "referencedDeclaration": 5509,
                         "src": "1023:9:8",
                         "typeDescriptions": {
                           "typeIdentifier": "t_mapping$_t_address_$_t_bool_$",
@@ -765,7 +765,7 @@
                   "name": "onlyOwner",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 6525,
+                  "referencedDeclaration": 6544,
                   "src": "913:9:8",
                   "typeDescriptions": {
                     "typeIdentifier": "t_modifier$__$",
@@ -857,7 +857,7 @@
         "id": 412,
         "nodeType": "ImportDirective",
         "scope": 456,
-        "sourceUnit": 5623,
+        "sourceUnit": 5642,
         "src": "72:38:8",
         "symbolAliases": [],
         "unitAlias": ""
@@ -868,7 +868,7 @@
         "id": 413,
         "nodeType": "ImportDirective",
         "scope": 456,
-        "sourceUnit": 5438,
+        "sourceUnit": 5457,
         "src": "111:43:8",
         "symbolAliases": [],
         "unitAlias": ""
@@ -882,10 +882,10 @@
               "id": 414,
               "name": "ProxyRegistry",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 5622,
+              "referencedDeclaration": 5641,
               "src": "263:13:8",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_ProxyRegistry_$5622",
+                "typeIdentifier": "t_contract$_ProxyRegistry_$5641",
                 "typeString": "contract ProxyRegistry"
               }
             },
@@ -895,9 +895,9 @@
           }
         ],
         "contractDependencies": [
-          5437,
-          5622,
-          6567
+          5456,
+          5641,
+          6586
         ],
         "contractKind": "contract",
         "documentation": "@title WyvernProxyRegistry\n@author Project Wyvern Developers",
@@ -905,8 +905,8 @@
         "id": 455,
         "linearizedBaseContracts": [
           455,
-          5622,
-          6567
+          5641,
+          6586
         ],
         "name": "WyvernProxyRegistry",
         "nodeType": "ContractDefinition",
@@ -1017,7 +1017,7 @@
                       "name": "delegateProxyImplementation",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 5478,
+                      "referencedDeclaration": 5497,
                       "src": "497:27:8",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
@@ -1039,7 +1039,7 @@
                         "nodeType": "NewExpression",
                         "src": "527:22:8",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_function_creation_nonpayable$__$returns$_t_contract$_AuthenticatedProxy_$5437_$",
+                          "typeIdentifier": "t_function_creation_nonpayable$__$returns$_t_contract$_AuthenticatedProxy_$5456_$",
                           "typeString": "function () returns (contract AuthenticatedProxy)"
                         },
                         "typeName": {
@@ -1047,10 +1047,10 @@
                           "id": 425,
                           "name": "AuthenticatedProxy",
                           "nodeType": "UserDefinedTypeName",
-                          "referencedDeclaration": 5437,
+                          "referencedDeclaration": 5456,
                           "src": "531:18:8",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_AuthenticatedProxy_$5437",
+                            "typeIdentifier": "t_contract$_AuthenticatedProxy_$5456",
                             "typeString": "contract AuthenticatedProxy"
                           }
                         }
@@ -1065,7 +1065,7 @@
                       "nodeType": "FunctionCall",
                       "src": "527:24:8",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_AuthenticatedProxy_$5437",
+                        "typeIdentifier": "t_contract$_AuthenticatedProxy_$5456",
                         "typeString": "contract AuthenticatedProxy"
                       }
                     },
@@ -1159,10 +1159,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        7074,
-                        7075
+                        7093,
+                        7094
                       ],
-                      "referencedDeclaration": 7074,
+                      "referencedDeclaration": 7093,
                       "src": "952:7:8",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -1254,7 +1254,7 @@
                         "name": "contracts",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 5490,
+                        "referencedDeclaration": 5509,
                         "src": "1023:9:8",
                         "typeDescriptions": {
                           "typeIdentifier": "t_mapping$_t_address_$_t_bool_$",
@@ -1333,7 +1333,7 @@
                   "name": "onlyOwner",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 6525,
+                  "referencedDeclaration": 6544,
                   "src": "913:9:8",
                   "typeDescriptions": {
                     "typeIdentifier": "t_modifier$__$",
@@ -1403,20 +1403,7 @@
     "name": "solc",
     "version": "0.4.23+commit.124ca40d.Emscripten.clang"
   },
-  "networks": {
-    "1": {
-      "events": {},
-      "links": {},
-      "address": "0xa5409ec958c83c3f309868babaca7c86dcb077c1",
-      "transactionHash": "0x776944fc9cb70ac130026ff31bfea75d4156c6fd456a82016802964655baf18d"
-    },
-    "4": {
-      "events": {},
-      "links": {},
-      "address": "0xf57b2c51ded3a29e6891aba85459d600256cf317",
-      "transactionHash": "0x344dad62b2649a06be2140cf5ac044a684f93619617a53bdd23ba5de140506ac"
-    }
-  },
+  "networks": {},
   "schemaVersion": "2.0.0",
-  "updatedAt": "2023-04-11T05:38:30.517Z"
+  "updatedAt": "2023-04-20T07:54:24.408Z"
 }

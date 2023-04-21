@@ -251,7 +251,7 @@
         "contractDependencies": [
           893,
           934,
-          6567
+          6586
         ],
         "contractKind": "contract",
         "documentation": "@title WyvernDAOProxy\n@author Project Wyvern Developers",
@@ -260,7 +260,7 @@
         "linearizedBaseContracts": [
           361,
           934,
-          6567,
+          6586,
           893
         ],
         "name": "WyvernDAOProxy",
@@ -286,7 +286,7 @@
                       "name": "owner",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 6495,
+                      "referencedDeclaration": 6514,
                       "src": "264:5:6",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
@@ -303,7 +303,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 7071,
+                        "referencedDeclaration": 7090,
                         "src": "272:3:6",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -425,7 +425,7 @@
         "contractDependencies": [
           893,
           934,
-          6567
+          6586
         ],
         "contractKind": "contract",
         "documentation": "@title WyvernDAOProxy\n@author Project Wyvern Developers",
@@ -434,7 +434,7 @@
         "linearizedBaseContracts": [
           361,
           934,
-          6567,
+          6586,
           893
         ],
         "name": "WyvernDAOProxy",
@@ -460,7 +460,7 @@
                       "name": "owner",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 6495,
+                      "referencedDeclaration": 6514,
                       "src": "264:5:6",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
@@ -477,7 +477,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 7071,
+                        "referencedDeclaration": 7090,
                         "src": "272:3:6",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -548,14 +548,7 @@
     "name": "solc",
     "version": "0.4.23+commit.124ca40d.Emscripten.clang"
   },
-  "networks": {
-    "4": {
-      "events": {},
-      "links": {},
-      "address": "0x65cb6ea254f716ac9ffdf542994214dabf1c8aa2",
-      "transactionHash": "0x45fbd92f7c5cdf8f50526ab8b722fbc31acc13f69f01211fa34a525e16799c26"
-    }
-  },
+  "networks": {},
   "schemaVersion": "2.0.0",
-  "updatedAt": "2023-04-11T05:38:30.495Z"
+  "updatedAt": "2023-04-20T07:54:24.408Z"
 }

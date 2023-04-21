@@ -315,7 +315,7 @@
         "id": 150,
         "nodeType": "ImportDirective",
         "scope": 186,
-        "sourceUnit": 7057,
+        "sourceUnit": 7076,
         "src": "81:71:3",
         "symbolAliases": [],
         "unitAlias": ""
@@ -329,10 +329,10 @@
               "id": 151,
               "name": "StandardToken",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 7056,
+              "referencedDeclaration": 7075,
               "src": "244:13:3",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_StandardToken_$7056",
+                "typeIdentifier": "t_contract$_StandardToken_$7075",
                 "typeString": "contract StandardToken"
               }
             },
@@ -342,10 +342,10 @@
           }
         ],
         "contractDependencies": [
-          6663,
-          6777,
-          6809,
-          7056
+          6682,
+          6796,
+          6828,
+          7075
         ],
         "contractKind": "contract",
         "documentation": "@title TestToken\n@author Project Wyvern Developers",
@@ -353,10 +353,10 @@
         "id": 185,
         "linearizedBaseContracts": [
           185,
-          7056,
-          6663,
-          6777,
-          6809
+          7075,
+          6682,
+          6796,
+          6828
         ],
         "name": "TestToken",
         "nodeType": "ContractDefinition",
@@ -641,7 +641,7 @@
                         "name": "balances",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 6580,
+                        "referencedDeclaration": 6599,
                         "src": "569:8:3",
                         "typeDescriptions": {
                           "typeIdentifier": "t_mapping$_t_address_$_t_uint256_$",
@@ -657,7 +657,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 7071,
+                          "referencedDeclaration": 7090,
                           "src": "578:3:3",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -728,7 +728,7 @@
                       "name": "totalSupply_",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 6582,
+                      "referencedDeclaration": 6601,
                       "src": "613:12:3",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
@@ -822,7 +822,7 @@
         "id": 150,
         "nodeType": "ImportDirective",
         "scope": 186,
-        "sourceUnit": 7057,
+        "sourceUnit": 7076,
         "src": "81:71:3",
         "symbolAliases": [],
         "unitAlias": ""
@@ -836,10 +836,10 @@
               "id": 151,
               "name": "StandardToken",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 7056,
+              "referencedDeclaration": 7075,
               "src": "244:13:3",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_StandardToken_$7056",
+                "typeIdentifier": "t_contract$_StandardToken_$7075",
                 "typeString": "contract StandardToken"
               }
             },
@@ -849,10 +849,10 @@
           }
         ],
         "contractDependencies": [
-          6663,
-          6777,
-          6809,
-          7056
+          6682,
+          6796,
+          6828,
+          7075
         ],
         "contractKind": "contract",
         "documentation": "@title TestToken\n@author Project Wyvern Developers",
@@ -860,10 +860,10 @@
         "id": 185,
         "linearizedBaseContracts": [
           185,
-          7056,
-          6663,
-          6777,
-          6809
+          7075,
+          6682,
+          6796,
+          6828
         ],
         "name": "TestToken",
         "nodeType": "ContractDefinition",
@@ -1148,7 +1148,7 @@
                         "name": "balances",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 6580,
+                        "referencedDeclaration": 6599,
                         "src": "569:8:3",
                         "typeDescriptions": {
                           "typeIdentifier": "t_mapping$_t_address_$_t_uint256_$",
@@ -1164,7 +1164,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 7071,
+                          "referencedDeclaration": 7090,
                           "src": "578:3:3",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -1235,7 +1235,7 @@
                       "name": "totalSupply_",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 6582,
+                      "referencedDeclaration": 6601,
                       "src": "613:12:3",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
@@ -1307,14 +1307,7 @@
     "name": "solc",
     "version": "0.4.23+commit.124ca40d.Emscripten.clang"
   },
-  "networks": {
-    "4": {
-      "events": {},
-      "links": {},
-      "address": "0xf44cf0b9b8328adf6d899667b2427d13759087f0",
-      "transactionHash": "0xfeac992e49f99bf4169512f88466726c619222f8abc46551aff6e56688dd731f"
-    }
-  },
+  "networks": {},
   "schemaVersion": "2.0.0",
-  "updatedAt": "2023-04-11T05:38:30.513Z"
+  "updatedAt": "2023-04-20T07:54:24.401Z"
 }

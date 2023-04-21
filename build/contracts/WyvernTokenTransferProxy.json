@@ -90,7 +90,7 @@
         "id": 546,
         "nodeType": "ImportDirective",
         "scope": 560,
-        "sourceUnit": 5661,
+        "sourceUnit": 5680,
         "src": "78:43:10",
         "symbolAliases": [],
         "unitAlias": ""
@@ -104,10 +104,10 @@
               "id": 547,
               "name": "TokenTransferProxy",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 5660,
+              "referencedDeclaration": 5679,
               "src": "160:18:10",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_TokenTransferProxy_$5660",
+                "typeIdentifier": "t_contract$_TokenTransferProxy_$5679",
                 "typeString": "contract TokenTransferProxy"
               }
             },
@@ -117,7 +117,7 @@
           }
         ],
         "contractDependencies": [
-          5660
+          5679
         ],
         "contractKind": "contract",
         "documentation": null,
@@ -125,7 +125,7 @@
         "id": 559,
         "linearizedBaseContracts": [
           559,
-          5660
+          5679
         ],
         "name": "WyvernTokenTransferProxy",
         "nodeType": "ContractDefinition",
@@ -150,10 +150,10 @@
                       "name": "registry",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 5628,
+                      "referencedDeclaration": 5647,
                       "src": "256:8:10",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_ProxyRegistry_$5622",
+                        "typeIdentifier": "t_contract$_ProxyRegistry_$5641",
                         "typeString": "contract ProxyRegistry"
                       }
                     },
@@ -168,13 +168,13 @@
                       "referencedDeclaration": 550,
                       "src": "267:12:10",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_ProxyRegistry_$5622",
+                        "typeIdentifier": "t_contract$_ProxyRegistry_$5641",
                         "typeString": "contract ProxyRegistry"
                       }
                     },
                     "src": "256:23:10",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_ProxyRegistry_$5622",
+                      "typeIdentifier": "t_contract$_ProxyRegistry_$5641",
                       "typeString": "contract ProxyRegistry"
                     }
                   },
@@ -206,7 +206,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_ProxyRegistry_$5622",
+                    "typeIdentifier": "t_contract$_ProxyRegistry_$5641",
                     "typeString": "contract ProxyRegistry"
                   },
                   "typeName": {
@@ -214,10 +214,10 @@
                     "id": 549,
                     "name": "ProxyRegistry",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 5622,
+                    "referencedDeclaration": 5641,
                     "src": "199:13:10",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_ProxyRegistry_$5622",
+                      "typeIdentifier": "t_contract$_ProxyRegistry_$5641",
                       "typeString": "contract ProxyRegistry"
                     }
                   },
@@ -273,7 +273,7 @@
         "id": 546,
         "nodeType": "ImportDirective",
         "scope": 560,
-        "sourceUnit": 5661,
+        "sourceUnit": 5680,
         "src": "78:43:10",
         "symbolAliases": [],
         "unitAlias": ""
@@ -287,10 +287,10 @@
               "id": 547,
               "name": "TokenTransferProxy",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 5660,
+              "referencedDeclaration": 5679,
               "src": "160:18:10",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_TokenTransferProxy_$5660",
+                "typeIdentifier": "t_contract$_TokenTransferProxy_$5679",
                 "typeString": "contract TokenTransferProxy"
               }
             },
@@ -300,7 +300,7 @@
           }
         ],
         "contractDependencies": [
-          5660
+          5679
         ],
         "contractKind": "contract",
         "documentation": null,
@@ -308,7 +308,7 @@
         "id": 559,
         "linearizedBaseContracts": [
           559,
-          5660
+          5679
         ],
         "name": "WyvernTokenTransferProxy",
         "nodeType": "ContractDefinition",
@@ -333,10 +333,10 @@
                       "name": "registry",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 5628,
+                      "referencedDeclaration": 5647,
                       "src": "256:8:10",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_ProxyRegistry_$5622",
+                        "typeIdentifier": "t_contract$_ProxyRegistry_$5641",
                         "typeString": "contract ProxyRegistry"
                       }
                     },
@@ -351,13 +351,13 @@
                       "referencedDeclaration": 550,
                       "src": "267:12:10",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_ProxyRegistry_$5622",
+                        "typeIdentifier": "t_contract$_ProxyRegistry_$5641",
                         "typeString": "contract ProxyRegistry"
                       }
                     },
                     "src": "256:23:10",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_ProxyRegistry_$5622",
+                      "typeIdentifier": "t_contract$_ProxyRegistry_$5641",
                       "typeString": "contract ProxyRegistry"
                     }
                   },
@@ -389,7 +389,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_ProxyRegistry_$5622",
+                    "typeIdentifier": "t_contract$_ProxyRegistry_$5641",
                     "typeString": "contract ProxyRegistry"
                   },
                   "typeName": {
@@ -397,10 +397,10 @@
                     "id": 549,
                     "name": "ProxyRegistry",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 5622,
+                    "referencedDeclaration": 5641,
                     "src": "199:13:10",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_ProxyRegistry_$5622",
+                      "typeIdentifier": "t_contract$_ProxyRegistry_$5641",
                       "typeString": "contract ProxyRegistry"
                     }
                   },
@@ -434,20 +434,7 @@
     "name": "solc",
     "version": "0.4.23+commit.124ca40d.Emscripten.clang"
   },
-  "networks": {
-    "1": {
-      "events": {},
-      "links": {},
-      "address": "0xe5c783ee536cf5e63e792988335c4255169be4e1",
-      "transactionHash": "0x899db7c93103033f5eea4095f40b78609d484f62b6f054d7c4b20fcb44726b09"
-    },
-    "4": {
-      "events": {},
-      "links": {},
-      "address": "0x82d102457854c985221249f86659c9d6cf12aa72",
-      "transactionHash": "0x4aa8cd0b404dcc4d2e1684382b56ed67cdbaeffb4f356ebc776f9e0e51c0e25a"
-    }
-  },
+  "networks": {},
   "schemaVersion": "2.0.0",
-  "updatedAt": "2023-04-11T05:38:30.496Z"
+  "updatedAt": "2023-04-20T07:54:24.409Z"
 }
