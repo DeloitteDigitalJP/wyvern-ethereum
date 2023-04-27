@@ -1,0 +1,16 @@
+{
+	"name": "Wyvern v2.2",
+	"dockerComposeFile": "docker-compose.yml",
+	"workspaceFolder": "/workspace",
+	"service": "wyvern",
+	"forwardPorts": [8545],
+	"postCreateCommand": "./tool/init.sh",
+	"shutdownAction": "stopCompose",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"JuanBlanco.solidity"
+			]
+		}
+	},
+}

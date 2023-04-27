@@ -1,0 +1,1 @@
+npx ganache-cli --networkId 80001 --allowUnlimitedContractSize

@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  wyvern:
+    container_name: wyvern
+    build: .
+    tty: true
+    volumes:
+      - ../:/workspace
