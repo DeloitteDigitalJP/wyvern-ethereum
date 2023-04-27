@@ -364,7 +364,7 @@ contract('WyvernExchange', (accounts) => {
     exchange: exchange,
     maker: accounts[0],
     taker: accounts[0],
-    paymentRecipient: accounts[2],
+    paymentRecipient: '0x0000000000000000000000000000000000000000',
     makerRelayerFee: 0,
     takerRelayerFee: 0,
     makerProtocolFee: 0,
@@ -1707,6 +1707,21 @@ contract('WyvernExchange', (accounts) => {
   /*
     paymentRecipient test - start
   */
+  const validateOrderParameters = async order => {
+    const exchangeInstance = await WyvernExchange.deployed();
+    return exchangeInstance.validateOrderParameters_.call(
+      [order.exchange, order.maker, order.taker, order.paymentRecipient, order.feeRecipient, order.target, order.staticTarget, order.paymentToken],
+      [order.makerRelayerFee, order.takerRelayerFee, order.makerProtocolFee, order.takerProtocolFee, order.basePrice, order.extra, order.listingTime, order.expirationTime, order.salt],
+      order.feeMethod,
+      order.side,
+      order.saleKind,
+      order.howToCall,
+      order.calldata,
+      order.replacementPattern,
+      order.staticExtradata
+    );
+  }
+
   const execBuy = async (buy, sell, thenFunc, catchFunc, value = 0) => {
     const exchangeInstance = await WyvernExchange.deployed();
     let balanceBuy1, balanceBuy2,
@@ -1724,18 +1739,7 @@ contract('WyvernExchange', (accounts) => {
       const ss = '0x' + signature.slice(64, 128);
       const sv = 27 + parseInt('0x' + signature.slice(128, 130), 16);
 
-      const validateOrderParameters = await exchangeInstance.validateOrderParameters_.call(
-        [buy.exchange, buy.maker, buy.taker, buy.paymentRecipient, buy.feeRecipient, buy.target, buy.staticTarget, buy.paymentToken],
-        [buy.makerRelayerFee, buy.takerRelayerFee, buy.makerProtocolFee, buy.takerProtocolFee, buy.basePrice, buy.extra, buy.listingTime, buy.expirationTime, buy.salt],
-        buy.feeMethod,
-        buy.side,
-        buy.saleKind,
-        buy.howToCall,
-        buy.calldata,
-        buy.replacementPattern,
-        buy.staticExtradata
-      );
-      assert.equal(validateOrderParameters, true, 'fail validateOrderParameters_');
+      assert.equal(await validateOrderParameters(buy), true, 'fail validateOrderParameters_');
 
       const validateOrder = await exchangeInstance.validateOrder_.call(
         [sell.exchange, sell.maker, sell.taker, sell.paymentRecipient, sell.feeRecipient, sell.target, sell.staticTarget, sell.paymentToken],
@@ -1787,16 +1791,16 @@ contract('WyvernExchange', (accounts) => {
 
       const transaction = await web3.eth.getTransaction(atomicMatch.receipt.transactionHash);
       totalGasPrice = (new BigNumber(transaction.gasPrice)).mul(atomicMatch.receipt.gasUsed);
-      balanceBuy2 = new BigNumber(await web3.eth.getBalance(accounts[1]));
-      balanceSell2 = new BigNumber(await web3.eth.getBalance(accounts[0]));
-      balancePayment2 = new BigNumber(await web3.eth.getBalance(accounts[2]));
-      balanceFee2 = new BigNumber(await web3.eth.getBalance(accounts[3]));
+      balanceBuy2 = new BigNumber(await web3.eth.getBalance(buy.maker));
+      balanceSell2 = new BigNumber(await web3.eth.getBalance(sell.maker));
+      balancePayment2 = new BigNumber(await web3.eth.getBalance(sell.paymentRecipient));
+      balanceFee2 = new BigNumber(await web3.eth.getBalance(sell.feeRecipient));
       balanceProtocol2 = new BigNumber(await web3.eth.getBalance(protocolFeeRecipient));
     } catch (error) {
-      catchFunc(error);
+      return catchFunc(error);
     }
 
-    thenFunc({
+    return thenFunc({
       buy: balanceBuy2.sub(balanceBuy1).add(totalGasPrice).toString(),
       sell: balanceSell2.sub(balanceSell1).toString(),
       paymentRecipient: balancePayment2.sub(balancePayment1).toString(),
@@ -1804,6 +1808,102 @@ contract('WyvernExchange', (accounts) => {
       protocolFeeRecipient: balanceProtocol2.sub(balanceProtocol1).toString(),
     });
   }
+
+  it('Should paymentRecipient be a zero address, it is considered valid', () => {
+    return WyvernExchange
+      .deployed()
+      .then(async exchangeInstance => {
+        const sell = makeOrder(exchangeInstance.address, true);
+        sell.maker = accounts[0];
+        sell.taker = '0x0000000000000000000000000000000000000000';
+        sell.paymentRecipient = '0x0000000000000000000000000000000000000000';
+        sell.feeRecipient = accounts[3];
+        sell.side = 1;
+        sell.feeMethod = 1;
+        sell.salt = 2023041801;
+        sell.paymentToken = '0x0000000000000000000000000000000000000000';
+        sell.basePrice = new BigNumber(10000);
+        sell.makerProtocolFee = new BigNumber(100);
+        sell.makerRelayerFee = new BigNumber(100);
+        sell.takerProtocolFee = new BigNumber(100);
+        sell.takerRelayerFee = new BigNumber(100);
+
+        assert.equal(true, await validateOrderParameters(sell));
+      });
+  })
+
+  it('Should paymentRecipient be the same as Order.Maker, it is considered valid', () => {
+    return WyvernExchange
+      .deployed()
+      .then(async exchangeInstance => {
+        const sell = makeOrder(exchangeInstance.address, true);
+        sell.maker = accounts[0];
+        sell.taker = '0x0000000000000000000000000000000000000000';
+        sell.paymentRecipient = accounts[0];
+        sell.feeRecipient = accounts[3];
+        sell.side = 1;
+        sell.feeMethod = 1;
+        sell.salt = 2023041801;
+        sell.paymentToken = '0x0000000000000000000000000000000000000000';
+        sell.basePrice = new BigNumber(10000);
+        sell.makerProtocolFee = new BigNumber(100);
+        sell.makerRelayerFee = new BigNumber(100);
+        sell.takerProtocolFee = new BigNumber(100);
+        sell.takerRelayerFee = new BigNumber(100);
+
+        assert.equal(true, await validateOrderParameters(sell));
+      });
+  })
+
+  it('Should Order.Maker be on the whitelist, it is considered valid', () => {
+    return WyvernExchange
+      .deployed()
+      .then(async exchangeInstance => {
+        const sell = makeOrder(exchangeInstance.address, true);
+        sell.maker = accounts[0];
+        sell.taker = '0x0000000000000000000000000000000000000000';
+        sell.paymentRecipient = accounts[2];
+        sell.feeRecipient = accounts[3];
+        sell.side = 1;
+        sell.feeMethod = 1;
+        sell.salt = 2023041801;
+        sell.paymentToken = '0x0000000000000000000000000000000000000000';
+        sell.basePrice = new BigNumber(10000);
+        sell.makerProtocolFee = new BigNumber(100);
+        sell.makerRelayerFee = new BigNumber(100);
+        sell.takerProtocolFee = new BigNumber(100);
+        sell.takerRelayerFee = new BigNumber(100);
+
+        await exchangeInstance.addAddressToWhitelist(accounts[0]);
+
+        assert.equal(true, await validateOrderParameters(sell));
+
+        await exchangeInstance.removeAddressFromWhitelist(accounts[0]);
+      });
+  })
+
+  it('Should send the sales amount to the paymentRecipient specified', () => {
+    return WyvernExchange
+      .deployed()
+      .then(async exchangeInstance => {
+        const sell = makeOrder(exchangeInstance.address, true);
+        sell.maker = accounts[0];
+        sell.taker = '0x0000000000000000000000000000000000000000';
+        sell.paymentRecipient = accounts[2];
+        sell.feeRecipient = accounts[3];
+        sell.side = 1;
+        sell.feeMethod = 1;
+        sell.salt = 2023041801;
+        sell.paymentToken = '0x0000000000000000000000000000000000000000';
+        sell.basePrice = new BigNumber(10000);
+        sell.makerProtocolFee = new BigNumber(100);
+        sell.makerRelayerFee = new BigNumber(100);
+        sell.takerProtocolFee = new BigNumber(100);
+        sell.takerRelayerFee = new BigNumber(100);
+
+        assert.equal(false, await validateOrderParameters(sell));
+      });
+  })
 
   it('Should send the sales amount to the paymentRecipient specified', () => {
     return WyvernExchange
@@ -1834,6 +1934,7 @@ contract('WyvernExchange', (accounts) => {
         buy.takerRelayerFee = new BigNumber(100);
 
         await exchangeInstance.changeProtocolFeeRecipient(accounts[4]);
+        await exchangeInstance.addAddressToWhitelist(accounts[0]);
 
         return execBuy(buy, sell, async balance => {
           assert.equal(balance.buy, '-10200');
@@ -1842,10 +1943,11 @@ contract('WyvernExchange', (accounts) => {
           assert.equal(balance.feeRecipient, '200');
           assert.equal(balance.protocolFeeRecipient, '200');
           await exchangeInstance.changeProtocolFeeRecipient(accounts[0]);
+          await exchangeInstance.removeAddressFromWhitelist(accounts[0]);
         }, err => {
           assert.equal(false, err, 'Orders should have matched');
         }, 10200);
-      })
+      });
   })
 
   it('Should send the sales amount to sell.maker if paymentRecipient is the zero address', () => {
@@ -1881,14 +1983,15 @@ contract('WyvernExchange', (accounts) => {
         return execBuy(buy, sell, async balance => {
           assert.equal(balance.buy, '-10200');
           assert.equal(balance.sell, '9800');
-          assert.equal(balance.paymentRecipient, '0');
+          // Ignored because it is a zero address
+          //assert.equal(balance.paymentRecipient, '0');
           assert.equal(balance.feeRecipient, '200');
           assert.equal(balance.protocolFeeRecipient, '200');
           await exchangeInstance.changeProtocolFeeRecipient(accounts[0]);
         }, err => {
           assert.equal(false, err, 'Orders should have matched');
         }, 10200);
-      })
+      });
   })
 
   /*

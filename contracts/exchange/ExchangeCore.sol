@@ -33,7 +33,7 @@ pragma solidity 0.4.23;
 
 import "openzeppelin-solidity/contracts/token/ERC20/ERC20.sol";
 import "openzeppelin-solidity/contracts/math/SafeMath.sol";
-import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
+import "openzeppelin-solidity/contracts/ownership/Whitelist.sol";
 
 import "../registry/ProxyRegistry.sol";
 import "../registry/TokenTransferProxy.sol";
@@ -46,7 +46,7 @@ import "./SaleKindInterface.sol";
  * @title ExchangeCore
  * @author Project Wyvern Developers
  */
-contract ExchangeCore is ReentrancyGuarded, Ownable {
+contract ExchangeCore is ReentrancyGuarded, Whitelist {
 
     /* The token used to pay exchange fees. */
     ERC20 public exchangeToken;
@@ -330,6 +330,11 @@ contract ExchangeCore is ReentrancyGuarded, Ownable {
     {
         /* Order must be targeted at this protocol version (this Exchange contract). */
         if (order.exchange != address(this)) {
+            return false;
+        }
+
+        /* Order must have a valid payment recipient address. It must either be a zero address, a whitelisted address, or the same as the maker's address. */
+        if (order.paymentRecipient != address(0) && order.paymentRecipient != order.maker && !whitelist(order.maker)) {
             return false;
         }
 
@@ -620,7 +625,7 @@ contract ExchangeCore is ReentrancyGuarded, Ownable {
             require(msg.value >= requiredAmount);
             address paymentRecipient = sell.paymentRecipient;
             if (paymentRecipient == address(0)) {
-                paymentRecipient == sell.maker;
+                paymentRecipient = sell.maker;
             }
             paymentRecipient.transfer(receiveAmount);
             /* Allow overshoot for variable-price auctions, refund difference. */
